@@ -7,93 +7,81 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 // NOT USED
-public class OptionsFrame extends JFrame
+public class OptionsFrame extends JPanel
 {
-    private DrawField field;
-    private ExamplePanel example;
+    private DrawField drawField;
+    private JSlider penSlider;
+    private JSpinner penSizeSpinner;
+
+    private JSlider anglesSlider;
+    private JSpinner anglesSpinner;
 
     public OptionsFrame(DrawField field)
     {
-        /*super("Options");
+        this.drawField = field;
+        setPreferredSize(new Dimension(400, 200));
 
-        this.field = field;
-        setBounds(100, 150, 450, 300);
-        getContentPane().setLayout(null);
-
-        example = new ExamplePanel();
-        example.setBounds(320, 15, 40, 40);
-        example.setVisible(true);
-        this.add(example);
-
-        JSlider penSize = new JSlider();
-        penSize.setMaximum(20);
-        penSize.setMinimum(1);
-        penSize.setValue(5);
-        penSize.setMajorTickSpacing(1);
-        penSize.setMinorTickSpacing(1);
-        penSize.setPaintTicks(true);
-        penSize.setPaintLabels(true);
-        penSize.setBounds(0, 30, 300, 50);
+        /*PEN OPTIONS*/
+        JLabel penSize = new JLabel("Pen Size");
         add(penSize);
 
-        JLabel penSizeLabel = new JLabel("PenSize");
-        penSizeLabel.setBounds(0, 1, 60, 40);
-        penSizeLabel.setVisible(true);
-        add(penSizeLabel);
-        setVisible(false);
+        penSlider = new JSlider(1,20);
+        penSlider.setMaximum(20);
+        penSlider.setMinimum(1);
+        penSlider.setMajorTickSpacing(1);
+        penSlider.setPaintTicks(true);
+        penSlider.setValue(5);
+        add(penSlider);
 
-        JSlider starRadius = new JSlider();
-        starRadius.setMaximum(10);
-        starRadius.setMinimum(1);
-        starRadius.setValue(5);
-        starRadius.setMajorTickSpacing(1);
-        starRadius.setMinorTickSpacing(1);
-        starRadius.setPaintTicks(true);
-        starRadius.setPaintLabels(true);
-        starRadius.setBounds(0, 110, 300, 50);
-        add(starRadius);
+        SpinnerNumberModel penSizeSpinnerModel = new SpinnerNumberModel(5, 1, 20, 1);
+        penSizeSpinner = new JSpinner(penSizeSpinnerModel);
+        add(penSizeSpinner);
 
-        /*ACTION LISTENERS*/
-        /*penSize.addChangeListener(e -> {
-            int size = penSize.getValue();
-            field.setThickness(size);
-
-            example.setThickness(size);
+        penSlider.addChangeListener(e -> {
+            penSizeSpinner.setValue(penSlider.getValue());
         });
-        /*----------------*/
+
+        penSizeSpinner.addChangeListener(e -> {
+            if((Integer) penSizeSpinner.getValue() > 20)
+                penSizeSpinner.setValue(20);
+            penSlider.setValue((Integer) penSizeSpinner.getValue());
+        });
+        /*-----------------*/
+
+        /*POLYGON OPTIONS*/
+        JLabel polygonOpt = new JLabel("Polygon Options");
+        add(polygonOpt);
+
+        anglesSlider = new JSlider(3, 16);
+        anglesSlider.setMajorTickSpacing(1);
+        anglesSlider.setPaintTicks(true);
+        anglesSlider.setValue(5);
+        add(anglesSlider);
+
+        SpinnerNumberModel anglesSpinnerModel = new SpinnerNumberModel(5, 3, 16, 1);
+        anglesSpinner = new JSpinner(anglesSpinnerModel);
+        add(anglesSpinner);
+
+        anglesSlider.addChangeListener(e -> {
+            anglesSpinner.setValue(anglesSlider.getValue());
+        });
+
+        anglesSpinner.addChangeListener(e -> {
+            if((Integer) anglesSpinner.getValue() > 16)
+                anglesSpinner.setValue(16);
+            anglesSlider.setValue((Integer) anglesSpinner.getValue());
+        });
+        /*---------------*/
     }
 
-    class ExamplePanel extends JPanel
+    public int getPenSize()
     {
-        private BufferedImage penSizeExample;
-        private Graphics2D penGraphics;
+        return penSlider.getValue();
+    }
 
-        private int thickness = 5;
-
-        public ExamplePanel()
-        {
-            penSizeExample = new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
-            penGraphics = penSizeExample.createGraphics();
-            repaint();
-        }
-
-        @Override
-        public void paintComponent(Graphics g)
-        {
-            super.paintComponent(g);
-
-            penGraphics.setColor(Color.WHITE);
-            penGraphics.fillRect(0, 0, 40, 40);
-            penGraphics.setColor(Color.BLACK);
-            penGraphics.fillOval(10, 10, thickness, thickness);
-
-            g.drawImage(penSizeExample, 0, 0, this);
-        }
-
-        public void setThickness(int a)
-        {
-            thickness = a;
-            repaint();
-        }
+    public void setPenSizeSpinner(int size)
+    {
+        penSlider.setValue(size);
+        penSizeSpinner.setValue(size);
     }
 }

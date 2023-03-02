@@ -41,7 +41,11 @@ public class MainFrame extends JFrame
     private JMenuItem saveItem;
     private JMenuItem loadItem;
     private JMenu aboutMenu;
-
+    private JMenu viewMenu;
+    private JMenuItem penItem;
+    private JMenuItem lineItem;
+    private JMenuItem starItem;
+    private JMenuItem fillItem;
     private JButton anyColorButton;
 
     public MainFrame() throws IOException
@@ -60,6 +64,16 @@ public class MainFrame extends JFrame
         field.setVisible(true);
         add(field);
 
+        ImageIcon penIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\pen.png")));
+        ImageIcon optionsIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\options.png")));
+        ImageIcon cleanIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\clearAll.png")));
+        ImageIcon eraserIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\eraser.png")));
+        ImageIcon lineIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\line.png")));
+        ImageIcon starIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\star.png")));
+        ImageIcon fillIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\fill.png")));
+        ImageIcon anyColorIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\palette.png")));
+
+
         /*TOOLBAR SECTION*/
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
@@ -68,25 +82,25 @@ public class MainFrame extends JFrame
 
         add(toolBar, BorderLayout.NORTH);
 
-        options = new JButton("Options"/*new ImageIcon(ImageIO.read(new File("src/main/resources/options.png")))*/);
+        options = new JButton(optionsIcon);
         toolBar.add(options);
 
-        cleanField = new JButton("Clean");
+        cleanField = new JButton(cleanIcon);
         toolBar.add(cleanField);
 
-        eraser = new JButton("Eraser"/*new ImageIcon(ImageIO.read(new File("src/main/resources/erase.png")))*/);
+        eraser = new JButton(eraserIcon);
         toolBar.add(eraser);
 
-        penTool = new JButton("Pen");
+        penTool = new JButton(penIcon);
         toolBar.add(penTool);
 
-        lineTool = new JButton("Line");
+        lineTool = new JButton(lineIcon);
         toolBar.add(lineTool);
 
-        starTool = new JButton("Star");
+        starTool = new JButton(starIcon);
         toolBar.add(starTool);
 
-        fillTool = new JButton("Fill ");
+        fillTool = new JButton(fillIcon);
         toolBar.add(fillTool);
 
         redColor = new JButton("     ");
@@ -105,7 +119,7 @@ public class MainFrame extends JFrame
         blackColor.setBackground(Color.BLACK);
         toolBar.add(blackColor);
 
-        anyColorButton = new JButton("Any Color"/*new ImageIcon(ImageIO.read(new File("src/main/resources/palette.png")))*/);
+        anyColorButton = new JButton(anyColorIcon);
         toolBar.add(anyColorButton);
         /*---------------*/
 
@@ -121,12 +135,31 @@ public class MainFrame extends JFrame
         loadItem.setHorizontalAlignment(SwingConstants.RIGHT);
 
         exitItem = new JMenuItem("Exit");
-        exitItem.setIcon(exitIcon);
         exitItem.setHorizontalAlignment(SwingConstants.RIGHT);
 
         fileMenu.add(exitItem);
         fileMenu.add(loadItem);
         fileMenu.add(saveItem);
+
+        viewMenu = new JMenu("View");
+        menuBar.add(viewMenu);
+
+        penItem = new JMenuItem("Pen");
+        penItem.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        lineItem = new JMenuItem("Line");
+        lineItem.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        starItem = new JMenuItem("Star");
+        starItem.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        fillItem = new JMenuItem("Fill");
+        fillItem.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        viewMenu.add(penItem);
+        viewMenu.add(lineItem);
+        viewMenu.add(starItem);
+        viewMenu.add(fillItem);
 
         aboutMenu = new JMenu("About");
         menuBar.add(aboutMenu);
@@ -177,11 +210,10 @@ public class MainFrame extends JFrame
             field.setWhite();
         });
 
-        JSlider slider = createSlider();
+        /*JSlider slider = createSlider();
         slider.setMaximum(20);
         slider.setMinimum(1);
         slider.setValue(5);
-        slider.setPaintLabels(false);
         SpinnerNumberModel penSizeSpinnerModel = new SpinnerNumberModel(5, 1, 20, 1);
         JSpinner penSizeSpinner = new JSpinner(penSizeSpinnerModel);
         JPanel sliderPanel = new JPanel();
@@ -197,11 +229,10 @@ public class MainFrame extends JFrame
             if((Integer) penSizeSpinner.getValue() > 20)
                 penSizeSpinner.setValue(20);
             slider.setValue((Integer) penSizeSpinner.getValue());
-        });
+        });*/
 
         options.addActionListener(e -> {
-            //optionsFrame.setVisible(true);
-            int penSize = JOptionPane.showOptionDialog(this,
+            /*int penSize = JOptionPane.showOptionDialog(this,
                     sliderPanel,
                     "PenSize",
                     JOptionPane.OK_CANCEL_OPTION,
@@ -215,6 +246,12 @@ public class MainFrame extends JFrame
                 int size = slider.getValue();
                 field.setThickness(size);
                 slider.setValue(size);
+            }*/
+            int confirm  = JOptionPane.showConfirmDialog(this, optionsFrame, "Options", JOptionPane.OK_CANCEL_OPTION);
+            if(JOptionPane.OK_OPTION == confirm)
+            {
+                int size = optionsFrame.getPenSize();
+                field.setThickness(size);
             }
         });
 
@@ -235,8 +272,7 @@ public class MainFrame extends JFrame
         });
 
         eraser.addActionListener(e -> {
-            field.setColor(Color.WHITE);
-            field.setPenStyle(DrawField.penStyle.PEN);
+            field.setPenStyle(DrawField.penStyle.ERASER);
         });
 
         anyColorButton.addActionListener(e -> {
@@ -257,20 +293,27 @@ public class MainFrame extends JFrame
             }
         });
         /*----------------*/
+
+        /*View Menu action listeners*/
+        penItem.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.PEN);
+        });
+
+        lineItem.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.LINE);
+        });
+
+        starItem.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.STAR);
+        });
+
+        fillItem.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.FILL);
+        });
+
         this.setJMenuBar(menuBar);
         this.setVisible(true);
         this.pack();
-    }
-
-    private JSlider createSlider()
-    {
-        JSlider slider = new JSlider(1,10);
-        slider.setMajorTickSpacing(1);
-        slider.setPaintTicks(true);
-        slider.setPaintLabels(true);
-        slider.setValue(5);
-
-        return slider;
     }
 
     public static void main(String[] args) throws IOException

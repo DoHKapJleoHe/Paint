@@ -122,10 +122,6 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
             g2d.setColor(Color.WHITE);
             g2d.fillOval(e.getX(), e.getY(), thickness, thickness);
             repaint();
-
-            // this is written because if i change the tool to pen after using eraser pen will draw using white color
-            // so i change here it back to current color
-            g2d.setColor(curentColor);
         }
     }
 
@@ -136,7 +132,10 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e)
+    {
+        //make here ctr+z
+    }
     @Override
     public void mouseEntered(MouseEvent e) {}
     @Override
