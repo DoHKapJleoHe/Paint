@@ -1,8 +1,9 @@
 package ru.nsu.fit.g20202.vartazaryan;
 
-import ru.nsu.fit.g20202.vartazaryan.instruments.Fill;
-import ru.nsu.fit.g20202.vartazaryan.instruments.Line;
-import ru.nsu.fit.g20202.vartazaryan.instruments.Star;
+import ru.nsu.fit.g20202.vartazaryan.instruments.PolygonTool;
+import ru.nsu.fit.g20202.vartazaryan.instruments.FillTool;
+import ru.nsu.fit.g20202.vartazaryan.instruments.LineTool;
+import ru.nsu.fit.g20202.vartazaryan.instruments.StarTool;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,12 +11,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
 
 public class DrawField extends JPanel implements MouseListener, MouseMotionListener
 {
     /*CANVAS*/
-    private int minWidth = 1600;
-    private int minHeight = 900;
+    private int minWidth = 640;
+    private int minHeight = 480;
     private int thickness = 5;
     private BufferedImage image;
     private Graphics2D g2d;
@@ -23,14 +25,15 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
     private Color curentColor = Color.BLACK;
 
     /*INSTRUMENTS*/
-    private Line lineTool = new Line();
-    private Fill fillTool = new Fill();
-    private Star starTool = new Star();
+    private LineTool lineTool = new LineTool();
+    private FillTool fillTool = new FillTool();
+    private StarTool starTool = new StarTool();
+    private PolygonTool polygonTool = new PolygonTool();
 
     /*ADDONS*/
     private Point startPoint = new Point(-1, -1);
     private Point prevPoint = new Point(-1, -1);
-
+    private Story saves = new Story();
 
     public DrawField()
     {
@@ -41,6 +44,19 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
         this.addMouseMotionListener(this);
 
         setWhite();
+    }
+
+    public void resizeImage(int width, int height)
+    {
+        this.minWidth = width;
+        this.minHeight = height;
+
+        BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        this.g2d = newImage.createGraphics();
+        setWhite();
+        newImage.setData(image.getData());
+        this.image = newImage;
+        repaint();
     }
 
     public void setWhite()
@@ -65,6 +81,9 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
     @Override
     public void mousePressed(MouseEvent e)
     {
+        if(e.getX() > minWidth || e.getY() > minHeight)
+            return;
+
         switch (curPenStyle)
         {
             case LINE:
@@ -89,6 +108,11 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
                 starTool.draw(image, e.getPoint(), curentColor);
                 break;
             }
+            case POLYGON:
+            {
+                polygonTool.draw(image, e.getPoint(), curentColor);
+                break;
+            }
             case FILL:
             {
                 fillTool.fill(image, e.getPoint(), curentColor);
@@ -108,6 +132,9 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
     @Override
     public void mouseDragged(MouseEvent e)
     {
+        if(e.getX() > minWidth || e.getY() > minHeight)
+            return;
+
         if(curPenStyle == penStyle.PEN)
         {
             g2d.setColor(curentColor);
@@ -134,7 +161,23 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        //make here ctr+z
+        if(e.getX() > minWidth || e.getY() > minHeight)
+            return;
+
+        saves.saveImage(image.getData());
+        System.out.println("Image saved");
+    }
+
+    // Find an error here
+    public void back()
+    {
+        Raster lastSave = saves.getLastSave();
+        if(lastSave != null)
+        {
+            image.setData(lastSave);
+            repaint();
+            System.out.println("returned");
+        }
     }
     @Override
     public void mouseEntered(MouseEvent e) {}
@@ -172,11 +215,22 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
         curentColor = color;
     }
 
+    public void setPolygonParameters(int angle, int numOfVertices, int radius)
+    {
+        starTool.setAngleCount(numOfVertices);
+        starTool.setAngle(angle);
+
+        polygonTool.setAngleCount(numOfVertices);
+        polygonTool.setAngle(angle);
+        polygonTool.setRadius(radius);
+    }
+
     enum penStyle
     {
         PEN,
         LINE,
         STAR,
+        POLYGON,
         ERASER,
         FILL
     }

@@ -1,12 +1,14 @@
 package ru.nsu.fit.g20202.vartazaryan.instruments;
 
+import lombok.Setter;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-public class Star
+public class StarTool
 {
     private BufferedImage image;
     private Graphics2D g2d;
@@ -14,8 +16,10 @@ public class Star
 
     private int bigRadius = 50;
     private int smallRadius = 20;
-    private int angle = -90;
-    private int angleCount = 9;
+    @Setter
+    private int angle = 0;
+    @Setter
+    private int angleCount = 5;
 
     public void draw(BufferedImage image, Point centre, Color curColor)
     {

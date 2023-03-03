@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
 
-public class Fill
+public class FillTool
 {
     private Stack<Pair> spanStack = new Stack();
     private BufferedImage image;

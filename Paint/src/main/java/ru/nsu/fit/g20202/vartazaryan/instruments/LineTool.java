@@ -3,7 +3,7 @@ package ru.nsu.fit.g20202.vartazaryan.instruments;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Line
+public class LineTool
 {
     private BufferedImage image;
     private Graphics2D g2d;

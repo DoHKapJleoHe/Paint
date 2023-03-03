@@ -1,0 +1,28 @@
+How to work in this program:
+
+* Button with gears will open program's options. You can set size of pen, number of vertexes for shapes, angle(to rotate
+  shapes) and radius  for shapes.
+
+* Button with broom clears the whole canvas.
+
+* Button with pen allows you free draw. Thickness can be changed in options.
+
+* Button with line draws a line. You have to make two clicks on canvas: first click - is the start of the line, second
+  click - is the end of the line. Thickness can be changed in options. If thickness = 1, then line will be drawn with
+  Brezenhem algorithm.
+
+* Button with polygon draws a shape with n vertices. Number of vertices can be set in options. Also in options you can
+  set shape's radius(it makes shape bigger) and angle, that rotates shape.
+
+* Button with star draws a star with n-vertices. Number of vertices can be set in options. Also in options you can
+  set star's angle, that rotates it.
+
+* Button with bucket fills area you clicked with chosen color.
+
+* Buttons with colors changing color.
+
+* Button with palette allow you to choose any color you want.
+
+* Button with arrow canceling your previous move.
+
+                                            ENJOY

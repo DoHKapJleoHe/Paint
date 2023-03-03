@@ -1,7 +1,7 @@
 package ru.nsu.fit.g20202.vartazaryan;
 
 import ru.nsu.fit.g20202.vartazaryan.frames.LoadFrame;
-import ru.nsu.fit.g20202.vartazaryan.frames.OptionsFrame;
+import ru.nsu.fit.g20202.vartazaryan.frames.OptionsPanel;
 import ru.nsu.fit.g20202.vartazaryan.frames.SaveFrame;
 
 import javax.imageio.ImageIO;
@@ -17,10 +17,7 @@ public class MainFrame extends JFrame
     private DrawField field;
     private SaveFrame saveFrame;
     private LoadFrame loadFrame;
-    private OptionsFrame optionsFrame;
-
-    private ImageIcon exitIcon;
-    private ImageIcon saveIcon;
+    private OptionsPanel optionsPanel;
 
     private JToolBar toolBar;
     private JButton options;
@@ -28,12 +25,15 @@ public class MainFrame extends JFrame
     private JButton cleanField;
     private JButton penTool;
     private JButton lineTool;
+    private JButton polygonTool;
     private JButton starTool;
     private JButton fillTool;
     private JButton redColor;
     private JButton blackColor;
     private JButton greenColor;
     private JButton blueColor;
+    private JButton anyColorButton;
+    private JButton backTool;
 
     private JMenuBar menuBar;
     private JMenu fileMenu;
@@ -41,12 +41,16 @@ public class MainFrame extends JFrame
     private JMenuItem saveItem;
     private JMenuItem loadItem;
     private JMenu aboutMenu;
+    private JMenuItem aboutItem;
     private JMenu viewMenu;
+    private JMenuItem fieldSize;
     private JMenuItem penItem;
     private JMenuItem lineItem;
+    private JMenuItem polygonItem;
     private JMenuItem starItem;
     private JMenuItem fillItem;
-    private JButton anyColorButton;
+    private JMenuItem eraserItem;
+    private JMenuItem clearItem;
 
     public MainFrame() throws IOException
     {
@@ -59,7 +63,7 @@ public class MainFrame extends JFrame
         field = new DrawField();
         saveFrame = new SaveFrame(field);
         loadFrame = new LoadFrame(field);
-        optionsFrame = new OptionsFrame(field);
+        optionsPanel = new OptionsPanel(field);
 
         field.setVisible(true);
         add(field);
@@ -72,6 +76,8 @@ public class MainFrame extends JFrame
         ImageIcon starIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\star.png")));
         ImageIcon fillIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\fill.png")));
         ImageIcon anyColorIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\palette.png")));
+        ImageIcon polygonIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\polygon.png")));
+        ImageIcon backIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\back.png")));
 
 
         /*TOOLBAR SECTION*/
@@ -83,106 +89,122 @@ public class MainFrame extends JFrame
         add(toolBar, BorderLayout.NORTH);
 
         options = new JButton(optionsIcon);
+        options.setFocusPainted(false);
         toolBar.add(options);
 
         cleanField = new JButton(cleanIcon);
+        cleanField.setFocusPainted(false);
         toolBar.add(cleanField);
 
         eraser = new JButton(eraserIcon);
+        eraser.setFocusPainted(false);
         toolBar.add(eraser);
 
         penTool = new JButton(penIcon);
+        penTool.setFocusPainted(false);
         toolBar.add(penTool);
 
         lineTool = new JButton(lineIcon);
+        lineTool.setFocusPainted(false);
         toolBar.add(lineTool);
 
+        polygonTool = new JButton(polygonIcon);
+        polygonTool.setFocusPainted(false);
+        toolBar.add(polygonTool);
+
         starTool = new JButton(starIcon);
+        starTool.setFocusPainted(false);
         toolBar.add(starTool);
 
         fillTool = new JButton(fillIcon);
+        fillTool.setFocusPainted(false);
         toolBar.add(fillTool);
 
         redColor = new JButton("     ");
+        redColor.setFocusPainted(false);
         redColor.setBackground(Color.RED);
         toolBar.add(redColor);
 
         greenColor = new JButton("     ");
+        greenColor.setFocusPainted(false);
         greenColor.setBackground(Color.GREEN);
         toolBar.add(greenColor);
 
         blueColor = new JButton("     ");
+        blueColor.setFocusPainted(false);
         blueColor.setBackground(Color.BLUE);
         toolBar.add(blueColor);
 
         blackColor = new JButton("     ");
+        blackColor.setFocusPainted(false);
         blackColor.setBackground(Color.BLACK);
         toolBar.add(blackColor);
 
         anyColorButton = new JButton(anyColorIcon);
+        anyColorButton.setFocusPainted(false);
         toolBar.add(anyColorButton);
+
+        backTool = new JButton(backIcon);
+        backTool.setFocusPainted(false);
+        toolBar.add(backTool);
         /*---------------*/
 
-        /*MENUBAR SECTION*/
+        /*FILE MENUBAR SECTION*/
         menuBar = new JMenuBar();
         fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
 
-        saveItem = new JMenuItem("Save", saveIcon);
-        saveItem.setHorizontalAlignment(SwingConstants.RIGHT);
+        saveItem = new JMenuItem("Save");
 
         loadItem = new JMenuItem("Load");
-        loadItem.setHorizontalAlignment(SwingConstants.RIGHT);
 
         exitItem = new JMenuItem("Exit");
-        exitItem.setHorizontalAlignment(SwingConstants.RIGHT);
 
         fileMenu.add(exitItem);
         fileMenu.add(loadItem);
         fileMenu.add(saveItem);
+        /*---------------------*/
 
+        /*VIEW MENUBAR SECTION*/
         viewMenu = new JMenu("View");
         menuBar.add(viewMenu);
 
+        eraserItem = new JMenuItem("Eraser");
+
+        clearItem = new JMenuItem("Clear");
+
         penItem = new JMenuItem("Pen");
-        penItem.setHorizontalAlignment(SwingConstants.RIGHT);
 
         lineItem = new JMenuItem("Line");
-        lineItem.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        polygonItem = new JMenuItem("Polygon");
 
         starItem = new JMenuItem("Star");
-        starItem.setHorizontalAlignment(SwingConstants.RIGHT);
 
         fillItem = new JMenuItem("Fill");
-        fillItem.setHorizontalAlignment(SwingConstants.RIGHT);
 
+        fieldSize = new JMenuItem("Resize");
+
+        viewMenu.add(eraserItem);
+        viewMenu.add(clearItem);
         viewMenu.add(penItem);
         viewMenu.add(lineItem);
+        viewMenu.add(polygonItem);
         viewMenu.add(starItem);
         viewMenu.add(fillItem);
+        viewMenu.add(fieldSize);
+        /*------------------------*/
 
+        /*ABOUT MENUBAR SECTION*/
         aboutMenu = new JMenu("About");
         menuBar.add(aboutMenu);
-        /*---------------*/
 
-        /*ACTION LISTENERS*/
+        aboutItem = new JMenuItem("About");
+        aboutMenu.add(aboutItem);
+        /*----------------------*/
+
+        /*FILE ACTION LISTENERS*/
         exitItem.addActionListener(e -> System.exit(0));
-
-        penTool.addActionListener(e -> {
-            field.setPenStyle(DrawField.penStyle.PEN);
-        });
-
-        starTool.addActionListener(e -> {
-            field.setPenStyle(DrawField.penStyle.STAR);
-        });
-
-        lineTool.addActionListener(e -> {
-            field.setPenStyle(DrawField.penStyle.LINE);
-        });
-
-        fillTool.addActionListener(e -> {
-            field.setPenStyle(DrawField.penStyle.FILL);
-        });
 
         saveItem.addActionListener(e -> {
             try
@@ -205,53 +227,40 @@ public class MainFrame extends JFrame
                 throw new RuntimeException(ex);
             }
         });
+        /*---------------------*/
+
+        /*TOOLBAR ACTION LISTENERS*/
+        penTool.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.PEN);
+        });
+
+        starTool.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.STAR);
+        });
+
+        polygonTool.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.POLYGON);
+        });
+
+        lineTool.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.LINE);
+        });
+
+        fillTool.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.FILL);
+        });
 
         cleanField.addActionListener(e -> {
             field.setWhite();
         });
 
-        /*JSlider slider = createSlider();
-        slider.setMaximum(20);
-        slider.setMinimum(1);
-        slider.setValue(5);
-        SpinnerNumberModel penSizeSpinnerModel = new SpinnerNumberModel(5, 1, 20, 1);
-        JSpinner penSizeSpinner = new JSpinner(penSizeSpinnerModel);
-        JPanel sliderPanel = new JPanel();
-        sliderPanel.add(slider);
-        sliderPanel.add(penSizeSpinner);
-
-        // make it possible to set max value if current value is higher than max value
-        slider.addChangeListener(e -> {
-            penSizeSpinner.setValue(slider.getValue());
-        });
-
-        penSizeSpinner.addChangeListener(e -> {
-            if((Integer) penSizeSpinner.getValue() > 20)
-                penSizeSpinner.setValue(20);
-            slider.setValue((Integer) penSizeSpinner.getValue());
-        });*/
-
         options.addActionListener(e -> {
-            /*int penSize = JOptionPane.showOptionDialog(this,
-                    sliderPanel,
-                    "PenSize",
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    null,
-                    null);
-
-            if(JOptionPane.OK_OPTION == penSize)
-            {
-                int size = slider.getValue();
-                field.setThickness(size);
-                slider.setValue(size);
-            }*/
-            int confirm  = JOptionPane.showConfirmDialog(this, optionsFrame, "Options", JOptionPane.OK_CANCEL_OPTION);
+            int confirm  = JOptionPane.showConfirmDialog(this, optionsPanel, "Options",JOptionPane.OK_CANCEL_OPTION);
             if(JOptionPane.OK_OPTION == confirm)
             {
-                int size = optionsFrame.getPenSize();
+                int size = optionsPanel.getPenSize();
                 field.setThickness(size);
+                field.setPolygonParameters(optionsPanel.getAngle(), optionsPanel.getNumOfVertices(), optionsPanel.getRadius());
             }
         });
 
@@ -281,6 +290,11 @@ public class MainFrame extends JFrame
             anyColorButton.setBackground(newColor);
         });
 
+        backTool.addActionListener(e -> {
+            field.back();
+        });
+        /*-----------------------------*/
+
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e)
@@ -295,12 +309,24 @@ public class MainFrame extends JFrame
         /*----------------*/
 
         /*View Menu action listeners*/
+        eraserItem.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.ERASER);
+        });
+
+        clearItem.addActionListener(e -> {
+            field.setWhite();
+        });
+
         penItem.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.PEN);
         });
 
         lineItem.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.LINE);
+        });
+
+        polygonItem.addActionListener(e -> {
+            field.setPenStyle(DrawField.penStyle.POLYGON);
         });
 
         starItem.addActionListener(e -> {
@@ -311,6 +337,56 @@ public class MainFrame extends JFrame
             field.setPenStyle(DrawField.penStyle.FILL);
         });
 
+        SpinnerNumberModel widthModel = new SpinnerNumberModel(640, 640, 1920, 1);
+        JSpinner widthField = new JSpinner(widthModel);
+        SpinnerNumberModel heightModel = new SpinnerNumberModel(480, 480, 900, 1);
+        JSpinner heightField = new JSpinner(heightModel);
+        JPanel resizePanel = new JPanel();
+        resizePanel.add(new JLabel("Width: "));
+        resizePanel.add(widthField);
+        resizePanel.add(new JLabel("Height :"));
+        resizePanel.add(heightField);
+
+        fieldSize.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(null, resizePanel, "Resize", JOptionPane.OK_CANCEL_OPTION);
+
+            if(JOptionPane.OK_OPTION == confirm)
+            {
+                field.resizeImage((int) widthField.getValue(), (int) heightField.getValue());
+            }
+        });
+
+        aboutItem.addActionListener(e -> {
+            JOptionPane.showConfirmDialog(null, "How to work in this program:\n" +
+                    "\n" +
+                    "* Button with gears will open program's options. You can set size of pen, number of vertexes for shapes, angle(to rotate\n" +
+                    "  shapes) and radius  for shapes.\n" +
+                    "\n" +
+                    "* Button with broom clears the whole canvas.\n" +
+                    "\n" +
+                    "* Button with pen allows you free draw. Thickness can be changed in options.\n" +
+                    "\n" +
+                    "* Button with line draws a line. You have to make two clicks on canvas: first click - is the start of the line, second\n" +
+                    "  click - is the end of the line. Thickness can be changed in options. If thickness = 1, then line will be drawn with\n" +
+                    "  Brezenhem algorithm.\n" +
+                    "\n" +
+                    "* Button with polygon draws a shape with n vertices. Number of vertices can be set in options. Also in options you can\n" +
+                    "  set shape's radius(it makes shape bigger) and angle, that rotates shape.\n" +
+                    "\n" +
+                    "* Button with star draws a star with n-vertices. Number of vertices can be set in options. Also in options you can\n" +
+                    "  set star's angle, that rotates it.\n" +
+                    "\n" +
+                    "* Button with bucket fills area you clicked with chosen color.\n" +
+                    "\n" +
+                    "* Buttons with colors changing color.\n" +
+                    "\n" +
+                    "* Button with palette allow you to choose any color you want.\n" +
+                    "\n" +
+                    "* Button with arrow canceling your previous move.\n" +
+                    "\n" +
+                    "                                            ENJOY", "About", JOptionPane.PLAIN_MESSAGE);
+        });
+        /*-----------*/
         this.setJMenuBar(menuBar);
         this.setVisible(true);
         this.pack();
