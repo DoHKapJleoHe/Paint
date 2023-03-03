@@ -34,6 +34,8 @@ public class MainFrame extends JFrame
     private JButton blueColor;
     private JButton anyColorButton;
     private JButton backTool;
+    private JLabel curToolLabel;
+    private JButton curToolButton;
 
     private JMenuBar menuBar;
     private JMenu fileMenu;
@@ -44,12 +46,12 @@ public class MainFrame extends JFrame
     private JMenuItem aboutItem;
     private JMenu viewMenu;
     private JMenuItem fieldSize;
-    private JMenuItem penItem;
-    private JMenuItem lineItem;
-    private JMenuItem polygonItem;
-    private JMenuItem starItem;
-    private JMenuItem fillItem;
-    private JMenuItem eraserItem;
+    private JRadioButtonMenuItem penItem;
+    private JRadioButtonMenuItem lineItem;
+    private JRadioButtonMenuItem polygonItem;
+    private JRadioButtonMenuItem starItem;
+    private JRadioButtonMenuItem fillItem;
+    private JRadioButtonMenuItem eraserItem;
     private JMenuItem clearItem;
 
     public MainFrame() throws IOException
@@ -78,6 +80,7 @@ public class MainFrame extends JFrame
         ImageIcon anyColorIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\palette.png")));
         ImageIcon polygonIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\polygon.png")));
         ImageIcon backIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\back.png")));
+        ImageIcon bookIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\book.png")));
 
 
         /*TOOLBAR SECTION*/
@@ -147,6 +150,13 @@ public class MainFrame extends JFrame
         backTool = new JButton(backIcon);
         backTool.setFocusPainted(false);
         toolBar.add(backTool);
+
+        curToolLabel = new JLabel("Tool:");
+        toolBar.add(curToolLabel);
+
+        curToolButton = new JButton(penIcon);
+        curToolButton.setFocusPainted(false);
+        toolBar.add(curToolButton);
         /*---------------*/
 
         /*FILE MENUBAR SECTION*/
@@ -169,29 +179,29 @@ public class MainFrame extends JFrame
         viewMenu = new JMenu("View");
         menuBar.add(viewMenu);
 
-        eraserItem = new JMenuItem("Eraser");
+        eraserItem = new JRadioButtonMenuItem("Eraser");
 
         clearItem = new JMenuItem("Clear");
 
-        penItem = new JMenuItem("Pen");
+        penItem = new JRadioButtonMenuItem("Pen");
 
-        lineItem = new JMenuItem("Line");
+        lineItem = new JRadioButtonMenuItem("Line");
 
-        polygonItem = new JMenuItem("Polygon");
+        polygonItem = new JRadioButtonMenuItem("Polygon");
 
-        starItem = new JMenuItem("Star");
+        starItem = new JRadioButtonMenuItem("Star");
 
-        fillItem = new JMenuItem("Fill");
+        fillItem = new JRadioButtonMenuItem("Fill");
 
         fieldSize = new JMenuItem("Resize");
 
-        viewMenu.add(eraserItem);
-        viewMenu.add(clearItem);
         viewMenu.add(penItem);
         viewMenu.add(lineItem);
         viewMenu.add(polygonItem);
         viewMenu.add(starItem);
         viewMenu.add(fillItem);
+        viewMenu.add(eraserItem);
+        viewMenu.add(clearItem);
         viewMenu.add(fieldSize);
         /*------------------------*/
 
@@ -232,22 +242,62 @@ public class MainFrame extends JFrame
         /*TOOLBAR ACTION LISTENERS*/
         penTool.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.PEN);
+            curToolButton.setIcon(penIcon);
+
+            penItem.setSelected(true);
+            lineItem.setSelected(false);
+            eraserItem.setSelected(false);
+            polygonItem.setSelected(false);
+            starItem.setSelected(false);
+            fillItem.setSelected(false);
         });
 
         starTool.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.STAR);
+            curToolButton.setIcon(starIcon);
+
+            penItem.setSelected(false);
+            lineItem.setSelected(false);
+            eraserItem.setSelected(false);
+            polygonItem.setSelected(false);
+            starItem.setSelected(true);
+            fillItem.setSelected(false);
         });
 
         polygonTool.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.POLYGON);
+            curToolButton.setIcon(polygonIcon);
+
+            penItem.setSelected(false);
+            lineItem.setSelected(false);
+            eraserItem.setSelected(false);
+            polygonItem.setSelected(true);
+            starItem.setSelected(false);
+            fillItem.setSelected(false);
         });
 
         lineTool.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.LINE);
+            curToolButton.setIcon(lineIcon);
+
+            penItem.setSelected(false);
+            lineItem.setSelected(true);
+            eraserItem.setSelected(false);
+            polygonItem.setSelected(false);
+            starItem.setSelected(false);
+            fillItem.setSelected(false);
         });
 
         fillTool.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.FILL);
+            curToolButton.setIcon(fillIcon);
+
+            penItem.setSelected(false);
+            lineItem.setSelected(false);
+            eraserItem.setSelected(false);
+            polygonItem.setSelected(false);
+            starItem.setSelected(false);
+            fillItem.setSelected(true);
         });
 
         cleanField.addActionListener(e -> {
@@ -260,7 +310,7 @@ public class MainFrame extends JFrame
             {
                 int size = optionsPanel.getPenSize();
                 field.setThickness(size);
-                field.setPolygonParameters(optionsPanel.getAngle(), optionsPanel.getNumOfVertices(), optionsPanel.getRadius());
+                field.setPolygonParameters(optionsPanel.getAngle(), optionsPanel.getNumOfVertices(), optionsPanel.getBigRadius(), optionsPanel.getSmallRadius());
             }
         });
 
@@ -282,6 +332,7 @@ public class MainFrame extends JFrame
 
         eraser.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.ERASER);
+            curToolButton.setIcon(eraserIcon);
         });
 
         anyColorButton.addActionListener(e -> {
@@ -311,6 +362,7 @@ public class MainFrame extends JFrame
         /*View Menu action listeners*/
         eraserItem.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.ERASER);
+            curToolButton.setIcon(eraserIcon);
         });
 
         clearItem.addActionListener(e -> {
@@ -319,22 +371,27 @@ public class MainFrame extends JFrame
 
         penItem.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.PEN);
+            curToolButton.setIcon(penIcon);
         });
 
         lineItem.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.LINE);
+            curToolButton.setIcon(lineIcon);
         });
 
         polygonItem.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.POLYGON);
+            curToolButton.setIcon(polygonIcon);
         });
 
         starItem.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.STAR);
+            curToolButton.setIcon(starIcon);
         });
 
         fillItem.addActionListener(e -> {
             field.setPenStyle(DrawField.penStyle.FILL);
+            curToolButton.setIcon(fillIcon);
         });
 
         SpinnerNumberModel widthModel = new SpinnerNumberModel(640, 640, 1920, 1);
@@ -344,7 +401,7 @@ public class MainFrame extends JFrame
         JPanel resizePanel = new JPanel();
         resizePanel.add(new JLabel("Width: "));
         resizePanel.add(widthField);
-        resizePanel.add(new JLabel("Height :"));
+        resizePanel.add(new JLabel("Height:"));
         resizePanel.add(heightField);
 
         fieldSize.addActionListener(e -> {
@@ -357,7 +414,9 @@ public class MainFrame extends JFrame
         });
 
         aboutItem.addActionListener(e -> {
-            JOptionPane.showConfirmDialog(null, "How to work in this program:\n" +
+            JOptionPane.showConfirmDialog(
+                    null,
+                    "How to work in this program:\n" +
                     "\n" +
                     "* Button with gears will open program's options. You can set size of pen, number of vertexes for shapes, angle(to rotate\n" +
                     "  shapes) and radius  for shapes.\n" +
@@ -384,12 +443,23 @@ public class MainFrame extends JFrame
                     "\n" +
                     "* Button with arrow canceling your previous move.\n" +
                     "\n" +
-                    "                                            ENJOY", "About", JOptionPane.PLAIN_MESSAGE);
+                    "                                            ENJOY\n" +
+                    "                                            \n" +
+                    "Author: Vartazaryan Eduard Araevich, FIT NSU                                            ",
+                    "About",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.DEFAULT_OPTION,
+                    bookIcon);
         });
         /*-----------*/
         this.setJMenuBar(menuBar);
         this.setVisible(true);
         this.pack();
+    }
+
+    private void unClickOtherTools()
+    {
+
     }
 
     public static void main(String[] args) throws IOException

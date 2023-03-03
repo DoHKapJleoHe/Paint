@@ -14,7 +14,9 @@ public class StarTool
     private Graphics2D g2d;
     private Color color;
 
+    @Setter
     private int bigRadius = 50;
+    @Setter
     private int smallRadius = 20;
     @Setter
     private int angle = 0;

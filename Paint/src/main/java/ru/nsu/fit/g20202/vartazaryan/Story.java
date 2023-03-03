@@ -14,6 +14,7 @@ public class Story
         if(savesNum > 20)
         {
             saves.remove(0);
+            savesNum--;
         }
         saves.add(imageToSave);
         savesNum++;

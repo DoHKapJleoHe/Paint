@@ -44,6 +44,7 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
         this.addMouseMotionListener(this);
 
         setWhite();
+        saves.saveImage(image.getData());
     }
 
     public void resizeImage(int width, int height)
@@ -84,46 +85,31 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
         if(e.getX() > minWidth || e.getY() > minHeight)
             return;
 
-        switch (curPenStyle)
-        {
-            case LINE:
-            {
-                if(SwingUtilities.isLeftMouseButton(e))
-                {
-                    if(startPoint.x == -1 & startPoint.y == -1)
-                    {
+        switch (curPenStyle) {
+            case LINE -> {
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    if (startPoint.x == -1 & startPoint.y == -1) {
                         startPoint.x = e.getX();
                         startPoint.y = e.getY();
-                    }
-                    else
-                    {
+                    } else {
                         lineTool.drawLine(image, thickness, curentColor, startPoint, new Point(e.getX(), e.getY()));
                         resetStartPos();
                     }
                 }
-                break;
             }
-            case STAR:
-            {
+            case STAR -> {
                 starTool.draw(image, e.getPoint(), curentColor);
-                break;
             }
-            case POLYGON:
-            {
+            case POLYGON -> {
                 polygonTool.draw(image, e.getPoint(), curentColor);
-                break;
             }
-            case FILL:
-            {
+            case FILL -> {
                 fillTool.fill(image, e.getPoint(), curentColor);
-                break;
             }
-            case PEN:
-            {
+            case PEN -> {
                 prevPoint = e.getPoint();
                 g2d.setColor(curentColor);
-                g2d.fillOval(e.getX() - thickness/2, e.getY() - thickness/2, thickness, thickness);
-                break;
+                g2d.fillOval(e.getX() - thickness / 2, e.getY() - thickness / 2, thickness, thickness);
             }
         }
         repaint();
@@ -165,7 +151,6 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
             return;
 
         saves.saveImage(image.getData());
-        System.out.println("Image saved");
     }
 
     // Find an error here
@@ -174,15 +159,18 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
         Raster lastSave = saves.getLastSave();
         if(lastSave != null)
         {
+            setWhite();
             image.setData(lastSave);
             repaint();
-            System.out.println("returned");
         }
     }
+
     @Override
     public void mouseEntered(MouseEvent e) {}
+
     @Override
     public void mouseExited(MouseEvent e) {}
+
     @Override
     public void mouseMoved(MouseEvent e) {}
 
@@ -215,14 +203,16 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
         curentColor = color;
     }
 
-    public void setPolygonParameters(int angle, int numOfVertices, int radius)
+    public void setPolygonParameters(int angle, int numOfVertices, int bRadius, int sRadius)
     {
         starTool.setAngleCount(numOfVertices);
         starTool.setAngle(angle);
+        starTool.setBigRadius(bRadius);
+        starTool.setSmallRadius(sRadius);
 
         polygonTool.setAngleCount(numOfVertices);
         polygonTool.setAngle(angle);
-        polygonTool.setRadius(radius);
+        polygonTool.setRadius(bRadius);
     }
 
     enum penStyle

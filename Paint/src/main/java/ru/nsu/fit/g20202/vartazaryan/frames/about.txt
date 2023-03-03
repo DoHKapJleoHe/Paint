@@ -26,3 +26,5 @@ How to work in this program:
 * Button with arrow canceling your previous move.
 
                                             ENJOY
+
+Author: Vartazaryan Eduard Araevich, FIT NSU

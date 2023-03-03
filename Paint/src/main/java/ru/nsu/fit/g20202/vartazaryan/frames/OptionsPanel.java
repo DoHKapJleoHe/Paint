@@ -17,14 +17,16 @@ public class OptionsPanel extends JPanel
     private JSlider angleSlider;
     private JSpinner angleSpinner;
 
-    private JSlider radiusSlider;
-    private JSpinner radiusSpinner;
+    private JSlider bigRadiusSlider;
+    private JSpinner bigRadiusSpinner;
 
+    private JSlider smallRadiusSlider;
+    private JSpinner smallRadiusSpinner;
 
     public OptionsPanel(DrawField field)
     {
         this.drawField = field;
-        setPreferredSize(new Dimension(320, 200));
+        setPreferredSize(new Dimension(330, 400));
 
         /*PEN OPTIONS*/
         JLabel penSize = new JLabel("Pen Size");
@@ -54,7 +56,7 @@ public class OptionsPanel extends JPanel
         /*-----------------*/
 
         /*POLYGON OPTIONS*/
-        JLabel polygonOpt = new JLabel("Vertexes");
+        JLabel polygonOpt = new JLabel("Vertices");
         add(polygonOpt);
 
         vertexSlider = new JSlider(3, 16);
@@ -77,7 +79,7 @@ public class OptionsPanel extends JPanel
             vertexSlider.setValue((Integer) vertexSpinner.getValue());
         });
 
-        JLabel angle = new JLabel("Angle");
+        JLabel angle = new JLabel("Rotate");
         add(angle);
 
         angleSlider = new JSlider(0, 360);
@@ -99,26 +101,48 @@ public class OptionsPanel extends JPanel
             angleSlider.setValue((Integer) angleSpinner.getValue());
         });
 
-        JLabel radius = new JLabel("Radius");
+        JLabel radius = new JLabel("Radius1");
         add(radius);
 
-        radiusSlider = new JSlider(0, 100);
-        radiusSlider.setMajorTickSpacing(1);
-        radiusSlider.setValue(50);
-        add(radiusSlider);
+        bigRadiusSlider = new JSlider(0, 100);
+        bigRadiusSlider.setMajorTickSpacing(1);
+        bigRadiusSlider.setValue(50);
+        add(bigRadiusSlider);
 
         SpinnerNumberModel radiusModel = new SpinnerNumberModel(50, 0, 100, 1);
-        radiusSpinner = new JSpinner(radiusModel);
-        add(radiusSpinner);
+        bigRadiusSpinner = new JSpinner(radiusModel);
+        add(bigRadiusSpinner);
 
-        radiusSlider.addChangeListener(e -> {
-            radiusSpinner.setValue(radiusSlider.getValue());
+        bigRadiusSlider.addChangeListener(e -> {
+            bigRadiusSpinner.setValue(bigRadiusSlider.getValue());
         });
 
-        radiusSpinner.addChangeListener(e -> {
-            if((Integer) radiusSpinner.getValue() > 360)
-                radiusSpinner.setValue(360);
-            radiusSlider.setValue((Integer) radiusSpinner.getValue());
+        bigRadiusSpinner.addChangeListener(e -> {
+            if((Integer) bigRadiusSpinner.getValue() > 1000)
+                bigRadiusSpinner.setValue(100);
+            bigRadiusSlider.setValue((Integer) bigRadiusSpinner.getValue());
+        });
+
+        JLabel smallRadius = new JLabel("Radius2");
+        add(smallRadius);
+
+        smallRadiusSlider = new JSlider(0, 100);
+        smallRadiusSlider.setMajorTickSpacing(1);
+        smallRadiusSlider.setValue(20);
+        add(smallRadiusSlider);
+
+        SpinnerNumberModel smallRadiusModel = new SpinnerNumberModel(20, 1, 100, 1);
+        smallRadiusSpinner = new JSpinner(smallRadiusModel);
+        add(smallRadiusSpinner);
+
+        smallRadiusSlider.addChangeListener(e -> {
+            smallRadiusSpinner.setValue(smallRadiusSlider.getValue());
+        });
+
+        smallRadiusSpinner.addChangeListener(e -> {
+            if((Integer) smallRadiusSpinner.getValue() > 100)
+                smallRadiusSpinner.setValue(100);
+            smallRadiusSlider.setValue((Integer) smallRadiusSpinner.getValue());
         });
         /*---------------*/
 
@@ -136,5 +160,6 @@ public class OptionsPanel extends JPanel
     {
         return angleSlider.getValue();
     }
-    public int getRadius(){return radiusSlider.getValue();}
+    public int getBigRadius(){return bigRadiusSlider.getValue();}
+    public int getSmallRadius(){return smallRadiusSlider.getValue();}
 }

@@ -14,6 +14,9 @@ public class FillTool
     private int colorToSet;
     private int oldColor;
 
+    private int maxUpX;
+    private int maxDownX;
+
     private void addNewSpan(Point seed)
     {
         //Span is a line that can is defined with two end-points
@@ -41,13 +44,21 @@ public class FillTool
     {
         if((point.y - 1) >= 0 && (point.y + 1) < image.getHeight())
         {
-            if(image.getRGB(point.x, point.y + 1) == oldColor)
+            if(point.x > maxUpX)
             {
-                addNewSpan(new Point(point.x, point.y + 1));
+                if(image.getRGB(point.x, point.y + 1) == oldColor)
+                {
+                    addNewSpan(new Point(point.x, point.y + 1));
+                    maxUpX = spanStack.peek().spanEnd.x;
+                }
             }
-            if(image.getRGB(point.x, point.y - 1) == oldColor)
+            if(point.x > maxDownX)
             {
-                addNewSpan(new Point(point.x, point.y - 1));
+                if(image.getRGB(point.x, point.y - 1) == oldColor)
+                {
+                    addNewSpan(new Point(point.x, point.y - 1));
+                    maxDownX = spanStack.peek().spanEnd.x;
+                }
             }
         }
     }
@@ -63,6 +74,9 @@ public class FillTool
         {
             findNewSpan(new Point(x, curSpan.spanStart.y));
         }
+
+        maxUpX = 0;
+        maxDownX = 0;
     }
 
     public void fill(BufferedImage image, Point seed, Color newColor)
