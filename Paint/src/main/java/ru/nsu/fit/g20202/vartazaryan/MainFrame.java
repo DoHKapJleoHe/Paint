@@ -70,6 +70,9 @@ public class MainFrame extends JFrame
         field.setVisible(true);
         add(field);
 
+        //field.setPreferredSize(new Dimension(640, 480));
+        //JScrollPane scrollPane = new JScrollPane(field);
+
         ImageIcon penIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\pen.png")));
         ImageIcon optionsIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\options.png")));
         ImageIcon cleanIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\clearAll.png")));
@@ -179,6 +182,8 @@ public class MainFrame extends JFrame
         viewMenu = new JMenu("View");
         menuBar.add(viewMenu);
 
+        ButtonGroup tools = new ButtonGroup();
+
         eraserItem = new JRadioButtonMenuItem("Eraser");
 
         clearItem = new JMenuItem("Clear");
@@ -203,6 +208,13 @@ public class MainFrame extends JFrame
         viewMenu.add(eraserItem);
         viewMenu.add(clearItem);
         viewMenu.add(fieldSize);
+
+        tools.add(penItem);
+        tools.add(lineItem);
+        tools.add(polygonItem);
+        tools.add(starItem);
+        tools.add(fillItem);
+        tools.add(eraserItem);
         /*------------------------*/
 
         /*ABOUT MENUBAR SECTION*/

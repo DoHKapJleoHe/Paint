@@ -40,6 +40,8 @@ public class DrawField extends JPanel implements MouseListener, MouseMotionListe
         image = new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_RGB);
         g2d = image.createGraphics();
 
+
+
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
 
