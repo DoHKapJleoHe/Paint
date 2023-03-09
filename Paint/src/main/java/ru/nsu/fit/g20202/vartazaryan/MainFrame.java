@@ -68,10 +68,9 @@ public class MainFrame extends JFrame
         optionsPanel = new OptionsPanel(field);
 
         field.setVisible(true);
-        add(field);
-
-        //field.setPreferredSize(new Dimension(640, 480));
-        //JScrollPane scrollPane = new JScrollPane(field);
+        JScrollPane scrollPane = new JScrollPane(field);
+        field.setPreferredSize(new Dimension(640, 480));
+        add(scrollPane);
 
         ImageIcon penIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\pen.png")));
         ImageIcon optionsIcon = new ImageIcon(ImageIO.read(new File("C:\\Users\\eduar\\Desktop\\Проекты\\Paint\\Paint\\src\\main\\java\\ru\\nsu\\fit\\g20202\\vartazaryan\\images\\options.png")));
@@ -406,9 +405,9 @@ public class MainFrame extends JFrame
             curToolButton.setIcon(fillIcon);
         });
 
-        SpinnerNumberModel widthModel = new SpinnerNumberModel(640, 640, 1920, 1);
+        SpinnerNumberModel widthModel = new SpinnerNumberModel(640, 640, 2100, 1);
         JSpinner widthField = new JSpinner(widthModel);
-        SpinnerNumberModel heightModel = new SpinnerNumberModel(480, 480, 900, 1);
+        SpinnerNumberModel heightModel = new SpinnerNumberModel(480, 480, 2000, 1);
         JSpinner heightField = new JSpinner(heightModel);
         JPanel resizePanel = new JPanel();
         resizePanel.add(new JLabel("Width: "));
@@ -422,6 +421,7 @@ public class MainFrame extends JFrame
             if(JOptionPane.OK_OPTION == confirm)
             {
                 field.resizeImage((int) widthField.getValue(), (int) heightField.getValue());
+                scrollPane.updateUI();
             }
         });
 
@@ -467,11 +467,6 @@ public class MainFrame extends JFrame
         this.setJMenuBar(menuBar);
         this.setVisible(true);
         this.pack();
-    }
-
-    private void unClickOtherTools()
-    {
-
     }
 
     public static void main(String[] args) throws IOException
